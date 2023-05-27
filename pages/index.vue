@@ -3,7 +3,8 @@
     <div class="element-wrapper">
       <div class="element-body">
         <h1>Welkom bij de Levarne Nulmeting</h1>
-        <LevButton @clicked="todoListStore().GetTodo()">Krijg een nieuwe ToDo</LevButton>
+        <LevButton @clicked="todoListStore().GetTodo()">Krijg een nieuwe Todo</LevButton>
+        <h4 id = "noNewTodo" style="display: none">kom geen nieuwe Todo vinden</h4>
         <br>
         <br>
         <h2>ToDo lijst:</h2>
@@ -39,6 +40,7 @@ const todoListStore = defineStore('todoList', {
     idList: [] as string[],
     //the todo list on the page
     todoList: document.getElementById("todoList")!,
+    noNewTodo: document.getElementById("noNewTodo")!,
   }),
   actions: {
     GetTodo(iteration: number = 0) {
@@ -54,9 +56,13 @@ const todoListStore = defineStore('todoList', {
           }
           else
           {
+            this.noNewTodo.style.display = "none";
             // add item to the list
             this.AddTodoToList(response.data.todo);
           }
+        }
+        else{
+          this.noNewTodo.style.display = "block";
         } 
       })
       .catch((error) => {
