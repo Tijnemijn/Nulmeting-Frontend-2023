@@ -4,7 +4,7 @@
       <div class="element-body">
         <h1>Welkom bij de Levarne Nulmeting</h1>
         <LevButton @clicked="todoListStore().GetTodo()">Krijg een nieuwe Todo</LevButton>
-        <h4 id = "noNewTodo" style="display: none">kom geen nieuwe Todo vinden</h4>
+        <h4 id = "noNewTodo" style="display: none"> geen nieuwe Todo gevonden</h4>
         <br>
         <br>
         <h2>ToDo lijst:</h2>
@@ -44,6 +44,7 @@ const todoListStore = defineStore('todoList', {
   }),
   actions: {
     GetTodo(iteration: number = 0) {
+      this.noNewTodo.style.display = "none";
       axios.request(config)
       .then((response) => {
         // check how often a new todo is aksed
@@ -56,7 +57,6 @@ const todoListStore = defineStore('todoList', {
           }
           else
           {
-            this.noNewTodo.style.display = "none";
             // add item to the list
             this.AddTodoToList(response.data.todo);
           }
@@ -96,6 +96,7 @@ const todoListStore = defineStore('todoList', {
 
     RemoveTodo(todoItem: Element, id: string) {
       todoItem.remove();
+      this.noNewTodo.style.display = "none";
       // get the index of the id in the list
       const localIndex = this.idList.indexOf(id, 0);
       // check if it is a valid index and remove it from the list
