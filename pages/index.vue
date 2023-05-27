@@ -40,20 +40,22 @@ const todoListStore = defineStore('todoList', {
     todoList: document.getElementById("todoList")!,
   }),
   actions: {
-    GetTodo() {
+    GetTodo(iteration: number = 0) {
       axios.request(config)
       .then((response) => {
-        // check if the Todo item already exists in the list
-        if (this.idList.includes(response.data.todo.id))
-        {
-          // get new item
-          this.GetTodo();
-        }
-        else
-        {
-          // add item to the list
-          this.AddTodoToList(response.data.todo);
-        }
+        if (iteration < 10) {
+          // check if the Todo item already exists in the list
+          if (this.idList.includes(response.data.todo.id))
+          {
+            // get new item
+            this.GetTodo(iteration + 1);
+          }
+          else
+          {
+            // add item to the list
+            this.AddTodoToList(response.data.todo);
+          }
+        } 
       })
       .catch((error) => {
         console.log(error);
@@ -75,14 +77,13 @@ const todoListStore = defineStore('todoList', {
       button.innerHTML = "Done";
       button.onclick = function() 
       {
-        todoItem.remove();
-        todoListStore().RemoveId(todo.id);
-        
+        todoListStore().RemoveTodo(todoItem, todo.id)
       };
       todoItem.appendChild(button);
       this.todoList.appendChild(todoItem);
     },
-    RemoveId(id: string) {
+    RemoveTodo(todoItem: Element, id: string) {
+      todoItem.remove();
       // get the index of the id in the list
       const localIndex = this.idList.indexOf(id, 0);
       // check if it is a valid index and remove it from the list
