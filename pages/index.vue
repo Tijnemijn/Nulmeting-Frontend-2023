@@ -24,7 +24,6 @@ import data from '~/assets/data.json';
 import { defineStore } from 'pinia';
 import { createElementBlock } from 'vue';
 const api_key = data.api_key;
-//list of all the id's in the toDoList
 let config = {
   method: 'get',
   maxBodyLength: Infinity,
@@ -43,6 +42,7 @@ const todoListStore = defineStore('todoList', {
     GetTodo(iteration: number = 0) {
       axios.request(config)
       .then((response) => {
+        // check how often a new todo is aksed
         if (iteration < 10) {
           // check if the Todo item already exists in the list
           if (this.idList.includes(response.data.todo.id))
@@ -61,6 +61,7 @@ const todoListStore = defineStore('todoList', {
         console.log(error);
       });
     },
+
     AddTodoToList(todo: any) {
       //add the id to the list of id's
       this.idList.push(todo.id);
@@ -75,13 +76,16 @@ const todoListStore = defineStore('todoList', {
       var button = document.createElement("button");
       button.style.backgroundColor = "lightgreen";
       button.innerHTML = "Done";
+      //when the button is clicked delete the Todo
       button.onclick = function() 
       {
         todoListStore().RemoveTodo(todoItem, todo.id)
       };
+      //add the Todo to the list
       todoItem.appendChild(button);
       this.todoList.appendChild(todoItem);
     },
+
     RemoveTodo(todoItem: Element, id: string) {
       todoItem.remove();
       // get the index of the id in the list
@@ -92,6 +96,7 @@ const todoListStore = defineStore('todoList', {
         this.idList.splice(localIndex, 1);
       }
     },
+
     GetCorrectDateTime(dateTime: string) {
       //seperate the date and time
       const dueDate = dateTime.split("T")[0];
