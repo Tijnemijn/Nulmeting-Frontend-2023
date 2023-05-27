@@ -7,7 +7,7 @@
         <br>
         <br>
         <h2>ToDo list:</h2>
-        <ul id="todoList">
+        <ul id="todoList" display="table-cell">
         </ul>
         <br>
         <br>
@@ -62,23 +62,25 @@ const todoListStore = defineStore('todoList', {
     AddTodoToList(todo: any) {
       //add the id to the list of id's
       this.idList.push(todo.id);
-      console.log(this.idList);
       //create a new list item
       const todoItem = document.createElement("li");
+      todoItem.style.display = "flex";
+      todoItem.style.justifyContent = "space-between";
       //get the date and time in in seperate variables and in the correct format
       const dueDateTime = this.GetCorrectDateTime(todo.dueDateTime);
       todoItem.innerHTML = todo.assignee + ": " + todo.description + " (due: " + dueDateTime[0] + " at " + dueDateTime[1] +")";
       //create a button that will delete the Todo when it's done
       var button = document.createElement("button");
+      button.style.backgroundColor = "lightgreen";
       button.innerHTML = "Done";
       button.onclick = function() 
       {
         todoItem.remove();
         todoListStore().RemoveId(todo.id);
+        
       };
       todoItem.appendChild(button);
       this.todoList.appendChild(todoItem);
-      todoItem.style.verticalAlign = "right";
     },
     RemoveId(id: string) {
       // get the index of the id in the list
