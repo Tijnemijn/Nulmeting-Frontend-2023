@@ -3,10 +3,10 @@
     <div class="element-wrapper">
       <div class="element-body">
         <h1>Welkom bij de Levarne Nulmeting</h1>
-        <LevButton @clicked="todoListStore().GetTodo()">Get a new ToDo</LevButton>
+        <LevButton @clicked="todoListStore().GetTodo()">Krijg een nieuwe ToDo</LevButton>
         <br>
         <br>
-        <h2>ToDo list:</h2>
+        <h2>ToDo lijst:</h2>
         <ul id="todoList" display="table-cell">
         </ul>
         <br>
@@ -70,7 +70,7 @@ const todoListStore = defineStore('todoList', {
       todoItem.style.justifyContent = "space-between";
       //get the date and time in in seperate variables and in the correct format
       const dueDateTime = this.GetCorrectDateTime(todo.dueDateTime);
-      todoItem.innerHTML = todo.assignee + ": " + todo.description + " (due: " + dueDateTime[0] + " at " + dueDateTime[1] +")";
+      todoItem.innerHTML = todo.assignee + ": " + todo.description + " (af voor: " + dueDateTime[0] + " om " + dueDateTime[1] +")";
       //create a button that will delete the Todo when it's done
       var button = document.createElement("button");
       button.style.backgroundColor = "lightgreen";
