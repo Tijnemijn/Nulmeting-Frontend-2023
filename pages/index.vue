@@ -35,7 +35,9 @@ let config = {
 
 const todoListStore = defineStore('todoList', {
   state: () => ({
+    //list of the id's in the todolist
     idList: [] as string[],
+    //the todo list on the page
     todoList: document.getElementById("todoList")!,
   }),
   actions: {
